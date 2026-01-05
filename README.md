@@ -19,7 +19,7 @@ The persona is "Rixie" — a cynical, toxic streamer who reviews games and hates
 
 1. **Clone the repo**
    ```bash
-   git clone [https://github.com/your-username/rixie-bot.git](https://github.com/your-username/rixie-bot.git)
+   git clone [https://github.com/MarchikZ/rixie-bot.git](https://github.com/MarchikZ/rixie-bot.git)
    cd rixie-bot
    
    
