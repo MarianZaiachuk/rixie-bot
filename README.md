@@ -1,47 +1,63 @@
-# 🎮 Rixie - Toxic AI Gamer Girl Bot
+[Українською](README.uk.md)
 
-A Telegram bot powered by a **Local LLM** (via LM Studio) and `aiogram 3.x`.
-The persona is "Rixie" — a cynical, toxic streamer who reviews games and hates corporate slang.
+# rixie-bot
 
-## ⚡ Features
-- **Local LLM Integration:** Uses OpenAI API format to connect to local models (Mistral, Llama 3, etc.).
-- **Async Architecture:** Fully asynchronous handling via `aiogram` and `AsyncOpenAI`.
-- **Persona Management:** Strict system prompts to maintain the toxic gamer character.
-- **Admin Tools:** Commands to post reviews directly to a channel.
+Telegram bot on `aiogram 3` connected to a local LLM running in LM Studio via its OpenAI-compatible API. Keeps per-chat message history, supports switching between the default sarcastic gamer persona (`rixie`) and a plain `assistant` mode, and includes admin commands for channel posting.
 
-## 🛠 Tech Stack
-- **Python 3.10+**
-- **Aiogram 3** (Telegram Bot API)
-- **OpenAI Lib** (pointing to Localhost)
-- **LM Studio** (for running the LLM)
+## Commands
 
-## 🚀 How to Run
+| Command | Access | Description |
+|---|---|---|
+| `/start` | All | Greeting and basic usage |
+| `/help` | All | List commands |
+| `/clear` | All | Reset conversation history for the current chat |
+| `/status` | Admin | Check LM Studio connectivity and loaded model |
+| `/post <Game> \| <Score>` | Admin | Generate a short review and post it to `CHANNEL_ID` |
+| `/post_welcome` | Admin | Post and pin a welcome message in `CHANNEL_ID` |
 
-1. **Clone the repo**
-   ```bash
-   git clone [https://github.com/MarchikZ/rixie-bot.git](https://github.com/MarchikZ/rixie-bot.git)
-   cd rixie-bot
-   
-   
-2. Install dependencies
-*Bash*
+## Setup
+
+1. Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/MarianZaiachuk/rixie-bot.git
+cd rixie-bot
+python -m venv .venv
+.venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-3. Configure Environment
-  Rename .env.example to .env.
-  Add your Telegram Bot Token and Admin ID.
+2. Create `.env` from `.env.example` and fill in your Telegram credentials.
+3. Open **LM Studio**, load a model, and start the Local Server on port `1234` (Developer tab).
+4. Run the bot:
 
-4. Start LM Studio
-  Load your preferred model (e.g., Hermes-2-Pro-Llama-3).
-  Start the Local Inference Server on port 1234.
-
-5. Run the bot
-  *Bash*
+```bash
 python main.py
+```
 
-## 📝 Usage
-/post Game Name | Score - Generate a toxic review and post it to the channel (Admin only).
-Chat with the bot to get roasted.
+## Configuration
 
-## ⚠️ Disclaimer
-The AI persona is designed to be rude/toxic for entertainment purposes. Don't take it personally.
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `BOT_TOKEN` | Yes | — | Token from `@BotFather` |
+| `ADMIN_ID` | Yes | — | Numeric Telegram user ID of the admin |
+| `CHANNEL_ID` | No | — | Channel username or ID for `/post` and `/post_welcome` |
+| `LLM_URL` | No | `http://127.0.0.1:1234/v1` | Local OpenAI-compatible API base URL |
+| `LLM_MODEL` | No | `local-model` | Model name sent to the API |
+| `LLM_API_KEY` | No | `lm-studio` | API key string passed to `AsyncOpenAI` |
+| `LLM_TIMEOUT` | No | `60.0` | Request timeout in seconds |
+| `LLM_TEMPERATURE` | No | `0.7` | Sampling temperature |
+| `MAX_HISTORY` | No | `20` | Max messages kept in memory per chat |
+| `BOT_PERSONA` | No | `rixie` | `rixie` or `assistant` |
+| `SYSTEM_PROMPT` | No | — | Custom system prompt (overrides `BOT_PERSONA`) |
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest -v
+```
+
+## License
+
+[MIT](LICENSE)
